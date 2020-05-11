@@ -1,18 +1,55 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MyMaterialModule} from './material-module';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+
+
+import { AlertService } from './login/alert.service';
+import { AuthServiceService } from './login/auth-service.service';
+import { AuthGuardService } from './_helpers/auth.guard.service';
+
+import { HomeComponent } from './home/home.component';
+import { RegisterComponent } from './register/register.component';
+import { AlertComponent } from './_components/alert/alert.component';
+import { AboutComponent } from './about/about.component';
+import { SectionsComponent } from './sections/sections.component';
+import { ForgotPasswordComponent } from './login/forgot-password/forgot-password.component';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    RegisterComponent,
+    AlertComponent,
+    AboutComponent,
+    SectionsComponent,
+    ForgotPasswordComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MyMaterialModule,
+    FormsModule,
+    AngularEditorModule
   ],
-  providers: [],
+  providers: [AlertService, AuthServiceService, AuthGuardService,   { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

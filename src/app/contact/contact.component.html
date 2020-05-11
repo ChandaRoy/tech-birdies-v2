@@ -1,0 +1,280 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="tab-content" id="myTabContentMD">
+                <div class="tab-pane  active" id="contact-md" role="tabpanel" aria-labelledby="contact-tab-md">
+                    <h5 class="card-title">Contact Us</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">Some quick example text to build on the panel title and make up the
+                                bulk of the
+                                panel's content.</p>
+                            <a class="card-link">Card link</a>
+                            <a class="card-link">Another link</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="send-md" role="tabpanel" aria-labelledby="send-tab-md">
+                    <h5 class="card-title">Send Query</h5>
+
+                    <!-- Section: Contact v.3 -->
+                    <section class="contact-section my-5">
+
+                        <!-- Form with header -->
+                        <div class="card">
+
+                            <!-- Grid row -->
+                            <div class="row">
+
+                                <!-- Grid column -->
+                                <div class="col-lg-7">
+
+                                    <div class="card-body form">
+
+                                        <!-- Header -->
+                                        <h3 class="mt-4"><i class="fas fa-envelope pr-2"></i>Write to us:</h3>
+                                        <form [formGroup]="queryForm" (ngSubmit)="onSubmit()" name="form1">
+                                            <!-- Grid row -->
+                                            <div class="row">
+
+                                                <!-- Grid column -->
+                                                <div class="col-md-6">
+                                                    <div class="md-form mb-0">
+                                                        <input type="text" formControlName="name" class="form-control"
+                                                            [ngClass]="{ 'is-invalid': rsubmitted && r.name.errors }">
+                                                        <label for="name" class="">Your name</label>
+                                                        <div *ngIf="rsubmitted && r.name.errors"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="r.name.errors.required">Name is required</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Grid column -->
+
+                                                <!-- Grid column -->
+                                                <div class="col-md-6">
+                                                    <div class="md-form mb-0">
+                                                        <input type="email" formControlName="email" class="form-control"
+                                                            [ngClass]="{ 'is-invalid': rsubmitted && r.email.errors }">
+                                                        <label for="email" class="">Your Email</label>
+                                                        <div *ngIf="rsubmitted && r.email.errors"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="r.email.errors.required">Email is required</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Grid column -->
+
+                                            </div>
+                                            <!-- Grid row -->
+
+                                            <!-- Grid row -->
+                                            <div class="row">
+
+                                                <!-- Grid column -->
+                                                <div class="col-md-6">
+                                                    <div class="md-form mb-0">
+                                                        <input type="phone" formControlName="phone"
+                                                            class="form-control">
+                                                        <label for="phone" class="">Phone</label>
+                                                    </div>
+                                                </div>
+                                                <!-- Grid column -->
+
+                                                <!-- Grid column -->
+                                                <div class="col-md-6">
+                                                    <div class="md-form mb-0">
+                                                        <input type="text" formControlName="company"
+                                                            class="form-control">
+                                                        <label for="company" class="">Your company</label>
+                                                    </div>
+                                                </div>
+                                                <!-- Grid column -->
+
+                                            </div>
+                                            <!-- Grid row -->
+                                            <div class="row">
+
+                                                <!-- Grid column -->
+                                                <div class="col-md-12">
+                                                    <div class="md-form mb-0">
+                                                        <input type="text" formControlName="subject"
+                                                            class="form-control"
+                                                            [ngClass]="{ 'is-invalid': rsubmitted && r.subject.errors }">
+                                                        <label for="subject" class="">Your Subject</label>
+                                                        <div *ngIf="rsubmitted && r.subject.errors"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="r.subject.errors.required">Subject is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Grid column -->
+
+                                            </div>
+                                            <!-- Grid row -->
+                                            <div class="row">
+
+                                                <!-- Grid column -->
+                                                <div class="col-md-12">
+                                                    <div class="md-form mb-0">
+                                                        <textarea formControlName="messageText"
+                                                            class="form-control md-textarea" rows="3"
+                                                            [ngClass]="{ 'is-invalid': rsubmitted && r.messageText.errors }"></textarea>
+                                                        <label for="messageText">Your message</label>
+                                                        <div *ngIf="rsubmitted && r.messageText.errors"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="r.messageText.errors.required">email is required
+                                                            </div>
+                                                        </div>
+                                                        <button class="btn-floating btn-lg blue" [disabled]="loadingR">
+                                                            <i class="far fa-paper-plane"></i>
+                                                            <span *ngIf="loadingR"
+                                                                class="spinner-border spinner-border-sm mr-1"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!-- Grid column -->
+
+                                            </div>
+                                            <!-- Grid row -->
+                                        </form>
+                                        <div *ngIf="sendStatus">
+                                            <h5>Your Query is successfully sent. We'll get back to you Shortly</h5>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- Grid column -->
+
+                                <!-- Grid column -->
+                                <div class="col-lg-5">
+
+                                    <div class="card-body contact text-center blue white-text">
+
+                                        <h3 class="my-4 pb-2">Contact information</h3>
+                                        <ul class="text-lg-left list-unstyled ml-4">
+                                            <li>
+                                                <p><i class="fas fa-map-marker-alt pr-2"></i>New York, 94126, USA</p>
+                                            </li>
+                                            <li>
+                                                <p><i class="fas fa-phone pr-2"></i>+ 01 234 567 89</p>
+                                            </li>
+                                            <li>
+                                                <p><i class="fas fa-envelope pr-2"></i>contact@example.com</p>
+                                            </li>
+                                        </ul>
+                                        <hr class="hr-light my-4">
+                                        <ul class="list-inline text-center list-unstyled">
+                                            <li class="list-inline-item">
+                                                <a class="p-2 fa-lg tw-ic">
+                                                    <i class="fab fa-twitter"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a class="p-2 fa-lg li-ic">
+                                                    <i class="fab fa-linkedin-in"> </i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a class="p-2 fa-lg ins-ic">
+                                                    <i class="fab fa-instagram"> </i>
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+                                <!-- Grid column -->
+
+                            </div>
+                            <!-- Grid row -->
+
+                        </div>
+                        <!-- Form with header -->
+
+                    </section>
+                    <!-- Section: Contact v.3 -->
+
+
+
+
+
+
+                </div>
+                <div class="tab-pane fade" id="join-md" role="tabpanel" aria-labelledby="join-tab-md">
+                    <h5 class="card-title">Join Us</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="card">
+                                        <div class="view overlay">
+                                            <img class="card-img-top"
+                                                src="https://mdbootstrap.com/img/Photos/Others/photo6.jpg"
+                                                alt="Card image cap">
+                                            <a href="#!">
+                                                <div class="mask rgba-white-slight"></div>
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h4 class="card-title">Card title</h4>
+                                            <p class="card-text">Some quick example text to build on the card title and
+                                                make up
+                                                the bulk of the card's
+                                                content.</p>
+                                            <a href="#" class="btn btn-primary">Button</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-5">
+                                    <div class="card">
+                                        <div class="view overlay">
+                                            <img class="card-img-top"
+                                                src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
+                                                alt="Card image cap">
+                                            <a href="#!">
+                                                <div class="mask rgba-white-slight"></div>
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h4 class="card-title">Card title</h4>
+                                            <p class="card-text">Some quick example text to build on the card title and
+                                                make up
+                                                the bulk of the card's
+                                                content.</p>
+                                            <a href="#" class="btn btn-primary">Button</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                <!-- <div class="card-header">
+                        Featured
+                    </div> -->
+                <ul class="list-group nav list-group-flush  rgba-grey-dark" role="tablist">
+                    <li class="list-group-item nav-item ">
+                        <a class="nav-link active " id="contact-tab-md" data-toggle="tab" href="#contact-md" role="tab"
+                            aria-controls="contact-md" aria-selected="true">Contact Us</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a class="nav-link  " id="send-tab-md" data-toggle="tab" href="#send-md" role="tab"
+                            aria-controls="send-md" aria-selected="true">Send Query</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a class="nav-link  " id="join-tab-md" data-toggle="tab" href="#join-md" role="tab"
+                            aria-controls="join-md" aria-selected="true">Join Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

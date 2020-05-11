@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            All posts
+            <div class="card px-2 py-2" *ngFor="let post of Posts;">
+                <section>
+                    <div class="row ">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="">
+                                <video width="320" height="240" controls>
+                                    <source [src]="post.myFile" type="video/mp4">
+                                    <source [src]="post.myFile" type="video/ogg">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 px-4">
+                                <h5 class="mt-0 mb-1">{{post.category}}</h5>
+                                <div class="post" [innerHTML]="post.content"></div>
+                                
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<hr>
+<div class="container">
+        <!-- <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent"></angular-editor> -->
+        <form [formGroup]="postContent" (ngSubmit)="onSubmit()" name="form1">
+            <div class="row  align-items-center mb-4">
+                <label for="category">Category</label>
+                <div class="text-center mb-3 col-md-8 form-group">
+                    <input type="text" formControlName="category" class="form-control">
+                </div>
+                <div class="text-center mb-3 col-md-8 form-group">
+                    <angular-editor formControlName="content" [config]="editorConfig"></angular-editor>
+                </div>
+                <div class="text-center mb-3 col-md-4 form-group">
+                    <!-- File Input -->
+                    <div class="form-group">
+                        <input type="file" (change)="uploadFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="row  align-items-center mb-4">
+                <div class="text-center mb-3 col-md-3 form-group">
+                    <button  class="btn btn-pink btn-rounded btn-block btn-rounded z-depth-1">
+                        Post</button>
+                </div>
+            </div>
+        </form>
+    </div>
