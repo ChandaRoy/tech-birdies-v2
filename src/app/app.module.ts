@@ -25,6 +25,13 @@ import { AboutComponent } from './about/about.component';
 import { SectionsComponent } from './sections/sections.component';
 import { ForgotPasswordComponent } from './login/forgot-password/forgot-password.component';
 import { ContactComponent } from './contact/contact.component';
+import { PostsComponent } from './posts/posts.component';
+import { ForumComponent } from './forum/forum.component';
+import { PostDetailComponent } from './post-detail/post-detail.component';
+import { TopicListComponent } from './topic-list/topic-list.component';
+import { TopicDetailComponent } from './topic-detail/topic-detail.component';
+import { BlogComponent } from './blog/blog.component';
+import { BlogCreateComponent } from './blog-create/blog-create.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +43,14 @@ import { ContactComponent } from './contact/contact.component';
     AboutComponent,
     SectionsComponent,
     ForgotPasswordComponent,
-    ContactComponent
+    ContactComponent,
+    PostsComponent,
+    ForumComponent,
+    PostDetailComponent,
+    TopicListComponent,
+    TopicDetailComponent,
+    BlogComponent,
+    BlogCreateComponent
   ],
   imports: [
     BrowserModule,

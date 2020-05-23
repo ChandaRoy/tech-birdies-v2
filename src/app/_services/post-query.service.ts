@@ -29,7 +29,45 @@ export class PostQueryService {
     }));
   }
 
-    // Create User
+  // Forum methods
+
+    addTopic(data): Observable<any> {
+      return this.http.post<any>(`${this.url}/content/addTopic`, data, {
+        reportProgress: true,
+        observe: 'events'
+      })
+    }
+
+    addComment(data): Observable<any> {
+      return this.http.post<any>(`${this.url}/content/topicComment`, data, {
+        reportProgress: true,
+        observe: 'events'
+      })
+    }
+
+    getTopics() {
+      return this.http.get(this.url+'/content/allTopics');
+    }
+  
+    getTopicById(id) {
+      console.log(this.url+'/content/topic/'+id);
+      return this.http.get(this.url+'/content/topic/'+id);
+    }
+
+    getTopicGroups() {
+      return this.http.get(this.url+'/content/topic-groups');
+    }
+
+    
+  getMyTopicThreads(email) {
+    return this.http.get(this.url+'/content/my-topic-threads?email='+email);
+  }
+
+  // Forum methods end
+
+
+  // Blog methods
+
     addPost(content: string, category: string, postFile: File): Observable<any> {
       var formData: any = new FormData();
       formData.append("content", content);
@@ -42,9 +80,41 @@ export class PostQueryService {
       })
     }
 
+    addPostsComment(data): Observable<any> {
+      console.log(data);
+      return this.http.post<any>(`${this.url}/content/postComment`, data, {
+        reportProgress: true,
+        observe: 'events'
+      })
+    }
+
+    addPostsCommentReply(data): Observable<any> {
+      console.log(data);
+      return this.http.post<any>(`${this.url}/content/postCommentReply`, data, {
+        reportProgress: true,
+        observe: 'events'
+      })
+    }
+
+    getMyPostThreads(email) {
+      return this.http.get(this.url+'/content/my-post-threads?email='+email);
+    }
+  
+    getPostGroups() {
+      return this.http.get(this.url+'/content/post-groups');
+    }
+
+    getPostById(id) {
+      console.log(this.url+'/content/post/'+id);
+      return this.http.get(this.url+'/content/post/'+id);
+    }
+
     getPosts() {
       return this.http.get(this.url+'/content/all');
     }
+    
+  // Blog methods end
+
 
      // Error handling 
   errorMgmt(error: HttpErrorResponse) {
@@ -58,6 +128,10 @@ export class PostQueryService {
     }
     console.log(errorMessage);
     return throwError(errorMessage);
+  }
+
+  like() {
+    return this.http.get(this.url+'/content/like');
   }
 
 }

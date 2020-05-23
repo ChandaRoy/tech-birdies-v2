@@ -8,7 +8,8 @@ var mongoose = require('mongoose'),
         postedOn: String,
         updatedOn: String,
         category: String,
-        myFile: String
+        myFile: String,
+        comments: [{commentedByName: String,commentedByEmail: String, commentedOn: String, commentText:String, likes: Number, commentReplies: [{commentedByName: String,commentedByEmail: String, commentedOn: String, commentText:String, likes: Number}]}]
     });
 
     postSchema.statics.addPost = function (postDetails, callback) {

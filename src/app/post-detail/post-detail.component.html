@@ -1,0 +1,148 @@
+<!--Section: Post-->
+<section class="mt-4">
+
+    <!--Grid row-->
+    <div class="row">
+        <!--Grid column-->
+        <div class="col-md-12 mb-4">
+            <!--Card-->
+            <div class="card mb-4">
+                <!--Card content-->
+                <div class="card-body">
+
+                    <p class="h5 my-4">{{post.category}} </p>
+                    <div class="view overlay">
+                        <div class="embed-responsive rounded-top">
+                            <video width="320" height="240" controls>
+                                <source [src]="post.myFile" type="video/mp4">
+                                <source [src]="post.myFile" type="video/ogg">
+                                Your browser does not support the video tag.
+                            </video>
+                            <!-- <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/cXTThxoywNQ" allowfullscreen></iframe> -->
+                        </div>
+                    </div>
+
+                    <div class="post" [innerHTML]="post.content"></div>
+
+                </div>
+
+            </div>
+            <!--/.Card-->
+
+            <!--Card About Author-->
+            <div class="card mb-4">
+
+                <div class="card-header font-weight-bold">
+                    <span>About author</span>
+                    <span class="pull-right">
+                        <a href="">
+                            <i class="fab fa-facebook-f mr-2"></i>
+                        </a>
+                        <a href="">
+                            <i class="fab fa-twitter mr-2"></i>
+                        </a>
+                        <a href="">
+                            <i class="fab fa-instagram mr-2"></i>
+                        </a>
+                        <a href="">
+                            <i class="fab fa-linkedin-in mr-2"></i>
+                        </a>
+                    </span>
+                </div>
+
+                <!--Card content-->
+                <div class="card-body">
+
+                    <div class="media d-block d-md-flex mt-3">
+                        <img class="d-flex mb-3 mx-auto z-depth-1"
+                            src="https://mdbootstrap.com/img/Photos/Avatars/img (30).jpg"
+                            alt="Generic placeholder image" style="width: 100px;">
+                        <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                            <h5 class="mt-0 font-weight-bold">Caroline Horwitz
+                            </h5>
+                            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                            voluptatum deleniti atque corrupti
+                            quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,
+                            similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum
+                            fuga.
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!--/.Card-->
+
+            <!--Comments-->
+            <div class="card card-comments mb-3">
+                <div class="card-header font-weight-bold">{{post.comments?post.comments.length : 0}} comments</div>
+                <div class="card-body">
+                    <div *ngIf="post.comments">
+                        <div class="media d-block d-md-flex mt-4" *ngFor="let comment of post.comments">
+                            <img class="d-flex mb-3 mx-auto "
+                                src="https://mdbootstrap.com/img/Photos/Avatars/img (20).jpg"
+                                alt="Generic placeholder image">
+                            <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                                <h5 class="mt-0 font-weight-bold">{{comment.commentedByName}}</h5>
+                                {{comment.commentText}}
+                                <div *ngIf="comment.commentReplies">
+                                    <div class="media d-block d-md-flex mt-3" *ngFor="let commentReply of comment.commentReplies">
+                                        <img class="d-flex mb-3 mx-auto "
+                                            src="https://mdbootstrap.com/img/Photos/Avatars/img (27).jpg"
+                                            alt="Generic placeholder image">
+                                        <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                                            <h5 class="mt-0 font-weight-bold">{{commentReply.commentedByName}}
+                                                <a  class="pull-right" (click)="onShowReplyForm(comment._id)">
+                                                    <i class="fas fa-reply"></i>
+                                                </a>
+                                            </h5>
+                                            {{commentReply.commentText}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Quick Reply -->
+                                <div class="form-group mt-4" [id]="comment._id" *ngIf="showReplyForm === comment._id">
+                                    <label for="quickReplyFormComment">Your comment</label>
+                                    <textarea class="form-control" id="quickReplyFormComment" rows="5" [(ngModel)]="commentReply"></textarea>
+
+                                    <div class="text-center">
+                                        <button class="btn btn-info btn-sm" (click)="onCommentReply(comment._id)">Post</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/.Comments-->
+
+            <!--Reply-->
+            <div class="card mb-3" id="comment">
+                <div class="card-header font-weight-bold">Leave a reply</div>
+                <div class="card-body">
+
+                    <!-- Default form reply -->
+                        <!-- Comment -->
+                        <div class="form-group">
+                            <label for="replyFormComment">Your comment</label>
+                            <textarea class="form-control" id="replyFormComment" rows="5" [(ngModel)]="comment"></textarea>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-info btn-md" (click)="onComment()" type="submit">Post</button>
+                        </div>
+                    <!-- Default form reply -->
+
+
+
+                </div>
+            </div>
+            <!--/.Reply-->
+
+        </div>
+        <!--Grid column-->
+    </div>
+    <!--Grid row-->
+
+</section>
+<!--Section: Post-->

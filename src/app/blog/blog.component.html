@@ -1,0 +1,109 @@
+<div class="container" style="margin-top:-4rem">
+    <div class="row">
+        <div class="col-sm-4 col-lg-4 col-xs-4"></div>
+        <div class="col-sm-4 col-lg-4 col-xs-4">
+            <div class="pull-right" style="float: right;display:none">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search Topics"
+                        aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-xs-4" style="float: right;">
+            <div class="text-center mb-3 col-md-12 form-group">
+                <button class="btn teal btn-md white-text" (click)="toggleShow()">Start New Topic</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+
+    <!--Section: Post-->
+    <section class="mt-1">
+
+        <!--Grid row-->
+        <div class="row">
+
+            <!--Grid column-->
+            <div class="col-md-9 mb-4">
+                <div class="post" *ngIf="showCreate" style="border:1px solid #eee;padding:1rem 2rem">
+                    <div class="px-2" style="float:right"><i class="fa fa-times red-text" (click)="close()"></i></div>
+                    <app-blog-create></app-blog-create>
+                </div>
+                <!--Card-->
+                <router-outlet></router-outlet>
+                <!--/.Card-->
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-md-3 mb-4">
+                <!--Card-->
+                <div class="card mb-4">
+
+                    <div class="card-header">Related articles</div>
+
+                    <!--Card content-->
+                    <div class="card-body">
+
+                        <ul class="list-unstyled" style="font-size:x-small">
+                            <li class="media my-2" *ngFor="let group of groups">
+                                <img class="d-flex mr-3"
+                                    src="https://mdbootstrap.com/img/Photos/Others/placeholder7.jpg"
+                                    alt="Generic placeholder image" style="">
+                                <div class="media-body">
+                                    <a href="">
+                                        <p class="mt-0 mb-1 font-weight-bold">{{group._id}}</p>
+                                    </a>
+                                    Cras sit amet nibh libero, in gravida nulla (...)
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+                <!--/.Card-->
+
+                <!--Card-->
+                <div class="card mb-4">
+
+                    <div class="card-header">My articles</div>
+
+                    <!--Card content-->
+                    <div class="card-body">
+
+                        <ul class="list-unstyled" style="font-size:x-small">
+                            <li class="media my-2" *ngFor="let thread of threads">
+                                <img class="d-flex mr-3"
+                                    src="https://mdbootstrap.com/img/Photos/Others/placeholder7.jpg"
+                                    alt="Generic placeholder image" style="height:20px">
+                                <div class="media-body">
+                                    <a href="">
+                                        <p class="mt-0 mb-1 font-weight-bold">{{thread.category}}</p>
+                                    </a>
+                                    <p [innerHTML]="thread.content" style="height:20px;overflow:hidden"></p>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+                <!--/.Card-->
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+    </section>
+    <!--Section: Post-->
+
+</div>
