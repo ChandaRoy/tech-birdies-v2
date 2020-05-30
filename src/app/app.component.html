@@ -50,9 +50,13 @@
 
         <!-- Right -->
         <ul class="navbar-nav nav-flex-icons my-2 my-lg-0 ml-auto">
-            <li class="nav-item" *ngIf="currentUser">
-                <a class="nav-item nav-link" *ngIf="currentUser">{{currentUser.user.firstName?currentUser.user.firstName+' '+currentUser.user.lastName : currentUser.user.email}}</a>
-              </li>
+          <li class="nav-item dropdown" *ngIf="currentUser">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">{{currentUser.user.firstName?currentUser.user.firstName+' '+currentUser.user.lastName : currentUser.user.email}}</a>
+            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" routerLink="profile">Update Profile</a>
+            </div>
+          </li>
             <li class="nav-item" *ngIf="currentUser">
                 <a class="nav-item nav-link" *ngIf="currentUser" (click)="logout()">Logout</a>
               </li>

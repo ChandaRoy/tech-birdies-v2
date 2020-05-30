@@ -21,10 +21,12 @@ export class HomeComponent implements OnInit, OnDestroy  {
   navigationSubscription;
   currentUser: User;
   loggedIn: boolean = false;
+  Posts: any;
 
   constructor(
     private router: Router,
-    private authenticationService: AuthServiceService
+    private authenticationService: AuthServiceService,
+    private postQueryService: PostQueryService
   ) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
@@ -46,6 +48,7 @@ export class HomeComponent implements OnInit, OnDestroy  {
       this.loggedIn = false;
     } else {
       this.loggedIn = true;
+      this.getPosts();
     }
   }
 
@@ -55,6 +58,14 @@ export class HomeComponent implements OnInit, OnDestroy  {
     }
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+   }
+
+  getPosts() {
+    this.postQueryService.getPosts().subscribe((res) => {
+      this.Posts = res['posts'];
+    })
+  }
 
 }

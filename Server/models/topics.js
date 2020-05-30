@@ -10,7 +10,7 @@ var mongoose = require('mongoose'),
         subcategory: String,
         likes: Number,
         liked_by: [String],
-        comments: [{commentedByName: String,commentedByEmail: String, commentedOn: String, commentText:String, likes: Number}]
+        comments: [{commentedByName: String,commentedByEmail: String, commentedOn: String, commentText:String, likes: Number, commentReplies: [{commentedByName: String,commentedByEmail: String, commentedOn: String, commentText:String, likes: Number}]}]
     });
 
     topicSchema.statics.addTopic = function (topicDetails, callback) {

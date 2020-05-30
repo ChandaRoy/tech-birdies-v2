@@ -142,3 +142,8 @@ p {
 .comment{
     padding: 1rem;
 }
+
+.card-comments img{width:3rem}
+section {
+    font-size:small;
+}

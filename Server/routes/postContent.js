@@ -153,14 +153,16 @@ router.post('/addPost', function (req, res) {
     }
     if(req.file) {
     const url = req.protocol + '://' + req.get('host');
-    console.log("url");
-    console.log(req.protocol);
-    console.log(req.get('host'));
-    console.log(url);
+
     const post = new Post({
       _id: new mongoose.Types.ObjectId(),
       content: req.body.content,
       category: req.body.category,
+      shortDescription: req.body.shortDescription,
+      postedByEmail: req.body.postedByEmail,
+      postedByName: req.body.postedByName,
+      postedOn: Date.now(),
+      updatedOn: Date.now(),
       myFile: url + '/files/' + req.file.filename
     });
     post.save().then(result => {
@@ -170,7 +172,6 @@ router.post('/addPost', function (req, res) {
         postCreated: {
           _id: result._id,
           category: result.category,
-          // postedByName: req.user.firstName+req.user.lastName,
           myFile: result.file
         }
       })
@@ -180,9 +181,33 @@ router.post('/addPost', function (req, res) {
           error: err
         });
     })
-  } else res.status(500).json({
-    error: err
-  });
+  } else {
+    const post = new Post({
+      _id: new mongoose.Types.ObjectId(),
+      content: req.body.content,
+      category: req.body.category,
+      shortDescription: req.body.shortDescription,
+      postedByEmail: req.body.postedByEmail,
+      postedByName: req.body.postedByName,
+      postedOn: Date.now(),
+      updatedOn: Date.now()
+    });
+    post.save().then(result => {
+      console.log(result);
+      res.status(201).json({
+        message: "Post added successfully!",
+        postCreated: {
+          _id: result._id,
+          category: result.category
+        }
+      })
+    }).catch(err => {
+      console.log(err),
+        res.status(500).json({
+          error: err
+        });
+    });
+  }
   })
 });
 
@@ -272,6 +297,31 @@ router.post('/postCommentReply',function(req,res){
     console.log(commentDetails);
       Post.findOneAndUpdate({ 
         "_id": req.body.postId,
+        "comments._id": req.body.commentId
+      },
+       { $push: { "comments.$.commentReplies": commentDetails } }
+       ).then(data => {
+        if (data) {
+          console.log(data);
+          res.send(data);
+        } else {
+          res.status(404).json({
+            message: "Post not found!"
+          });
+        }
+      });
+  })
+
+  router.post('/topicCommentReply',function(req,res){
+    var commentDetails = {
+      "commentText" : req.body.commentText,
+      "commentedByName" : req.body.commentedByName,
+      "commentedByEmail": req.body.commentedByEmail,
+      "commentedOn": new Date()
+    };
+    console.log(commentDetails);
+      Topic.findOneAndUpdate({ 
+        "_id": req.body.topicId,
         "comments._id": req.body.commentId
       },
        { $push: { "comments.$.commentReplies": commentDetails } }

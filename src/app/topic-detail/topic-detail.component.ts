@@ -15,6 +15,8 @@ export class TopicDetailComponent implements OnInit {
   topicId: string;
   topic: any = {};
   currentUser: any;
+  commentReply: any;
+  showReplyForm: any;
   
   constructor(
     private router: Router,
@@ -55,6 +57,28 @@ export class TopicDetailComponent implements OnInit {
       this.getTopic();
       // this.Topics.push(data);
     })
+  }
+
+  onCommentReply(id) {
+    console.log(id);
+    let postData = {
+      "postId": this.topicId,
+      "commentText" : this.commentReply,
+      "commentedByName" : this.currentUser.user.firstName+' '+this.currentUser.user.lastName,
+      "commentedByEmail": this.currentUser.user.email,
+      "commentedOn": new Date(),
+      "commentId" : id
+    };
+    this.postQueryService.addTopicsCommentReply(
+      postData
+    ).subscribe((data) => {
+      this.getTopic();
+      // this.Topics.push(data);
+    })
+  }
+
+  onShowReplyForm(id) {
+    this.showReplyForm = id;
   }
 
   goBack() {

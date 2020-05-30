@@ -5,9 +5,10 @@ var mongoose = require('mongoose'),
         updatedByEmail: String,
         updatedByName: String,
         content: String,
-        postedOn: String,
+        postedOn: Date,
         updatedOn: String,
         category: String,
+        shortDescription: String,
         myFile: String,
         comments: [{commentedByName: String,commentedByEmail: String, commentedOn: String, commentText:String, likes: Number, commentReplies: [{commentedByName: String,commentedByEmail: String, commentedOn: String, commentText:String, likes: Number}]}]
     });
@@ -20,6 +21,7 @@ var mongoose = require('mongoose'),
         postedOn: Date.now(),
         updatedOn: Date.now(),
         category: postDetails.category,
+        shortDescription: postDetails.shortDescription,
         myFile: postDetails.imageUrl
     }, function (err, data) {
         if (err) callback(err)
@@ -46,6 +48,7 @@ postSchema.statics.updatePost = function(postId, postDetails, callback) {
         content: postDetails.content,
         updatedOn: Date.now(),
         category: postDetails.category,
+        shortDescription: postDetails.shortDescription,
         myFile: postDetails.imageUrl
       }
     }, {

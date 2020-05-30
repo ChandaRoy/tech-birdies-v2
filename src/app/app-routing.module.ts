@@ -14,6 +14,7 @@ import { TopicDetailComponent } from './topic-detail/topic-detail.component';
 import { TopicListComponent } from './topic-list/topic-list.component';
 import { BlogComponent } from './blog/blog.component';
 import { BlogCreateComponent } from './blog-create/blog-create.component';
+import { UpdateProfileComponent } from './update-profile/update-profile.component';
 
 
 
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'sections', component: SectionsComponent },
   { path: 'forgot', component: ForgotPasswordComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'profile', component: UpdateProfileComponent },
   { 
     path: 'blogs', 
     component: BlogComponent,

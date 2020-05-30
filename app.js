@@ -52,6 +52,7 @@ app.use(passport.session());
 app.use('/', routes);
 app.use('/auth',authenticationHandler);
 app.use('/content',postContent);
+app.use('/user', passport.authenticate('jwt', {session: false}), user);
 
 
 // view engine setup
@@ -80,7 +81,6 @@ app.set('view engine', 'ejs');
 // app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/user', user);
 
 // error handlers
 

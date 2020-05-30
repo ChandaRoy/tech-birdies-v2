@@ -45,6 +45,14 @@ export class PostQueryService {
       })
     }
 
+    addTopicsCommentReply(data): Observable<any> {
+      console.log(data);
+      return this.http.post<any>(`${this.url}/content/topicCommentReply`, data, {
+        reportProgress: true,
+        observe: 'events'
+      })
+    }
+
     getTopics() {
       return this.http.get(this.url+'/content/allTopics');
     }
@@ -68,12 +76,15 @@ export class PostQueryService {
 
   // Blog methods
 
-    addPost(content: string, category: string, postFile: File): Observable<any> {
+    addPost(content: string, category: string, postFile: File, name: string, email: string, description: string): Observable<any> {
       var formData: any = new FormData();
       formData.append("content", content);
       formData.append("category", category);
       formData.append("myFile", postFile);
-  
+      formData.append("postedByName", name);
+      formData.append("postedByEmail", email);
+      formData.append("shortDescription", description);
+
       return this.http.post<any>(`${this.url}/content/addPost`, formData, {
         reportProgress: true,
         observe: 'events'

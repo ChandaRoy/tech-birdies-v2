@@ -73,16 +73,35 @@
             <app-login></app-login>
         </div>
         <div class="col-md-4  mb-4"*ngIf="loggedIn" >
-            <div class="card mb-4 text-center" style="margin-top:1rem">
-                <a class="green" routerLink="blogs" style="height:100px">
-                    <i class="fa fa-blog white-text fa-4x"></i>
-                </a>
-            </div>
-            <div class="card text-center">
-                <a class="indigo" routerLink="forum" style="height:100px">
-                    <i class="fa fa-comments white-text fa-4x"></i>
-                </a>
-            </div>
+          <div class="card mb-4">
+                <!--Card-->
+                <div class="card mb-4">
+
+                  <div class="card-header">Recent Posts</div>
+
+                  <!--Card content-->
+                  <div class="card-body">
+
+                      <ul class="list-unstyled" style="font-size:x-small">
+                          <li class="media my-2" *ngFor="let post of Posts">
+                              <img class="d-flex mr-3"
+                                  src="https://mdbootstrap.com/img/Photos/Others/placeholder7.jpg"
+                                  alt="Generic placeholder image" style="height:20px">
+                              <div class="media-body">
+                                  <a href="">
+                                      <p class="mt-0 mb-1 font-weight-bold">{{post.category}}</p>
+                                  </a>
+                                  <p [innerHTML]="post.content" style="height:20px;overflow:hidden"></p>
+                              </div>
+                          </li>
+                      </ul>
+
+                  </div>
+
+              </div>
+              <!--/.Card-->
+
+        </div>
         </div>
       </div>
     </div>

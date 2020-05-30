@@ -17,6 +17,8 @@ import { LoginComponent } from './login/login.component';
 import { AlertService } from './login/alert.service';
 import { AuthServiceService } from './login/auth-service.service';
 import { AuthGuardService } from './_helpers/auth.guard.service';
+import { JwtInterceptorService } from './_helpers/jwt.interceptor.service';
+import { ErrorInterceptor } from './_helpers/error.interceptor';
 
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -32,6 +34,7 @@ import { TopicListComponent } from './topic-list/topic-list.component';
 import { TopicDetailComponent } from './topic-detail/topic-detail.component';
 import { BlogComponent } from './blog/blog.component';
 import { BlogCreateComponent } from './blog-create/blog-create.component';
+import { UpdateProfileComponent } from './update-profile/update-profile.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +53,8 @@ import { BlogCreateComponent } from './blog-create/blog-create.component';
     TopicListComponent,
     TopicDetailComponent,
     BlogComponent,
-    BlogCreateComponent
+    BlogCreateComponent,
+    UpdateProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,10 @@ import { BlogCreateComponent } from './blog-create/blog-create.component';
     FormsModule,
     AngularEditorModule
   ],
-  providers: [AlertService, AuthServiceService, AuthGuardService,   { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
+  providers: [AlertService, AuthServiceService, AuthGuardService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

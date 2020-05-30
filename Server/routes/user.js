@@ -1,36 +1,80 @@
-var router = require('express').Router();
-var mongoose = require('mongoose');
+let express = require('express'),
+  multer = require('multer'),
+  mongoose = require('mongoose'),
+  router = express.Router();
+var path = require('path');
 
 var User = require('../models/user.js');
 
-router.get('/',function(req,res,next){
-  user ={
-    _id : req.user._id,
-    email : req.user.email
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+
+    cb(null, 'uploads/dps');
+  },
+  filename: (req, file, cb) => {
+    console.log(req.body);
+    let email = req.body.email;
+    const fileName = email+'.'+ file.originalname.split('.')[1];
+
+    console.log(fileName);
+    cb(null, fileName)
   }
-  res.send(user);
 });
 
-router.get('/all',function(req,res,next){
-  User.find({},{email : 1},function(err,data){
-    res.send(data);
-  })
-})
+var upload = multer({storage: storage}).single('myFile');
 
-router.post('/updateUser', function(req, res, next) {
-  var newUserDetails = {};
-  newUserDetails.firstName= req.body.firstName;
-  newUserDetails.lastName= req.body.lastName;
-  newUserDetails.email= req.body.email;
-  User.updateUser(req.user._id, newUserDetails, function(err, data) {
-    if (err)
-      res.send("false");
-    else {
-      res.send(data);
-
+router.post('/updateUser', function (req, res) {
+  upload(req, res, function (err) {
+    console.log(req.body);
+    var newUserDetails = {
+      "firstName" : req.body.firstName,
+      "lastName" : req.body.lastName,
+      "company" : req.body.company,
+      "aboutMe" : req.body.aboutMe
     }
+    if (err) {
+      console.log("I am in error");
+      console.log(err);
+      // An error occurred when uploading 
+      return
+    }
+    if (req.file) {
+      const url = req.protocol + '://' + req.get('host');
+      
+      newUserDetails.photo = url + '/dps/' + req.file.filename;
+      console.log(newUserDetails.photo);
+    } 
+    User.findOneAndUpdate({ 
+      "email": req.body.email
+    },
+     { $set: newUserDetails }
+     ).then(data => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).json({
+          message: "error"
+        });
+      }
+    });
   })
 });
+
+router.get("/details/:id", (req, res, next) => {
+  console.log(req);
+  console.log(req.params);
+  User.findById(req.params.id).then(data => {
+    if (data) {
+      data.password = '';
+      res.send(data);
+    } else {
+      res.status(404).json({
+        message: "User not found!"
+      });
+    }
+  });
+});
+
 router.get('/getUserDetails', function(req, res, next) {
   userDetails = {
     firstName : req.user.firstName,
@@ -38,7 +82,8 @@ router.get('/getUserDetails', function(req, res, next) {
     email : req.user.email,
     _id : req.user._id,
     photo: req.user.photo,
-    github: req.user.github
+    company: req.user.company,
+    aboutMe: req.user.aboutMe
   };
   res.send(userDetails);
 });
@@ -65,6 +110,20 @@ router.get('/getUsers', function(req, res, next){
     })
   }
 })
+
+router.get('/all',function(req,res,next){
+  User.find({},{email : 1},function(err,data){
+    res.send(data);
+  })
+})
+
+router.get('/',function(req,res,next){
+  user ={
+    _id : req.user._id,
+    email : req.user.email
+  }
+  res.send(user);
+});
 
 
 module.exports = router;

@@ -15,7 +15,7 @@ import { HttpEventType, HttpEvent } from '@angular/common/http';
   styleUrls: ['./blog-create.component.css']
 })
 export class BlogCreateComponent implements OnInit {
-  currentUser: User;
+  currentUser: any;
   users = [];
   postContent: FormGroup;
   preview: string;
@@ -37,6 +37,7 @@ export class BlogCreateComponent implements OnInit {
     this.postContent = this.formBuilder.group({
       content: ['', Validators.required],
       category: ['', Validators.required],
+      shortDescription: ['',Validators.required],
       myFile: [Validators.required]
     });
   }
@@ -57,11 +58,13 @@ export class BlogCreateComponent implements OnInit {
   }
 
   onSubmit() {
-
     this.postQueryService.addPost(
       this.postContent.value.content,
       this.postContent.value.category,
-      this.postContent.value.myFile
+      this.postContent.value.myFile,
+      this.currentUser.user.firstName+' '+this.currentUser.user.lastName,
+      this.currentUser.user.email,
+      this.postContent.value.shortDescription
     ).subscribe((event: HttpEvent<any>) => {
       console.log(event);
       
