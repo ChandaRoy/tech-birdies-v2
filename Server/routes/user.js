@@ -60,18 +60,13 @@ router.post('/updateUser', function (req, res) {
   })
 });
 
-router.get("/details/:id", (req, res, next) => {
-  console.log(req);
+router.get("/details", (req, res, next) => {
+  console.log(req.user);
   console.log(req.params);
-  User.findById(req.params.id).then(data => {
-    if (data) {
-      data.password = '';
-      res.send(data);
-    } else {
-      res.status(404).json({
-        message: "User not found!"
-      });
-    }
+  res.json({
+    message : 'You made it to the secure route',
+    user : req.user,
+    token : req.query.secret_token
   });
 });
 

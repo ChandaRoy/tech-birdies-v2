@@ -1,7 +1,10 @@
-var mongoose = require('mongoose'),
-    postSchema = new mongoose.Schema({
-        postedByEmail: String,
-        postedByName: String,
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var postSchema = new mongoose.Schema({
+        postedBy: {
+          type: Schema.Types.ObjectId,
+          ref: 'User'
+        },
         updatedByEmail: String,
         updatedByName: String,
         content: String,
@@ -10,34 +13,15 @@ var mongoose = require('mongoose'),
         category: String,
         shortDescription: String,
         myFile: String,
-        comments: [{commentedByName: String,commentedByEmail: String, commentedOn: String, commentText:String, likes: Number, commentReplies: [{commentedByName: String,commentedByEmail: String, commentedOn: String, commentText:String, likes: Number}]}]
+        comments: [{
+          commentedBy: {type: Schema.Types.ObjectId,ref: 'User'},
+          commentedOn: String, commentText:String, likes: Number, 
+          commentReplies: [{
+            commentedBy: { type: Schema.Types.ObjectId, ref: 'User'} , 
+            commentedOn: String, commentText:String, likes: Number
+          }]
+          }]
     });
-
-    postSchema.statics.addPost = function (postDetails, callback) {
-    this.create({
-        postedBy: postDetails.postedBy,
-        updatedBy: postDetails.updatedBy,
-        content: postDetails.content,
-        postedOn: Date.now(),
-        updatedOn: Date.now(),
-        category: postDetails.category,
-        shortDescription: postDetails.shortDescription,
-        myFile: postDetails.imageUrl
-    }, function (err, data) {
-        if (err) callback(err)
-        else callback(data);
-    });
-}
-
-
-postSchema.statics.getAllPosts = function(res, callback) {
-  return this.find({
-    
-  }).exec(function(err, data) {
-    if (err) callback(err)
-    else callback(data);
-  });
-}
 
 postSchema.statics.updatePost = function(postId, postDetails, callback) {
     this.findOneAndUpdate({

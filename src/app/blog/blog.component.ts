@@ -48,14 +48,14 @@ export class BlogComponent implements OnInit {
   }
 
   getTopicGroups() {
-    this.postQueryService.getPostGroups().subscribe((res) => {
+    this.postQueryService.getPostGroups(this.currentUser.token).subscribe((res) => {
       console.log(res);
       this.groups = res;
     });
   }
 
   getMyTopicThreads() {
-    this.postQueryService.getMyPostThreads(this.currentUser.user.email).subscribe((res) => {
+    this.postQueryService.getMyPostThreads(this.currentUser.token).subscribe((res) => {
       console.log(res);
       this.threads = res;
     });

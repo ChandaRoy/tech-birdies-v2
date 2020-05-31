@@ -55,28 +55,29 @@ export class ForumComponent implements OnInit {
   onSubmit() {
 
     this.postQueryService.addTopic(
-      this.topicContent.value
+      this.topicContent.value,
+      this.currentUser.token
     ).subscribe((data) => {
       this.Topics.push(data);
     });
   }
 
   getTopics() {
-    this.postQueryService.getTopics().subscribe((res) => {
+    this.postQueryService.getTopics(this.currentUser.token).subscribe((res) => {
       console.log(res);
       this.Topics = res;
     });
   }
 
   getTopicGroups() {
-    this.postQueryService.getTopicGroups().subscribe((res) => {
+    this.postQueryService.getTopicGroups(this.currentUser.token).subscribe((res) => {
       console.log(res);
       this.groups = res;
     });
   }
 
   getMyTopicThreads() {
-    this.postQueryService.getMyTopicThreads(this.currentUser.user.email).subscribe((res) => {
+    this.postQueryService.getMyTopicThreads(this.currentUser.token).subscribe((res) => {
       console.log(res);
       this.threads = res;
     });

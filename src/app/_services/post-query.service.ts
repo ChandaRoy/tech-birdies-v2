@@ -31,44 +31,44 @@ export class PostQueryService {
 
   // Forum methods
 
-    addTopic(data): Observable<any> {
-      return this.http.post<any>(`${this.url}/content/addTopic`, data, {
+    addTopic(data, token): Observable<any> {
+      return this.http.post<any>(`${this.url}/content/addTopic?secret_token=` + token, data, {
         reportProgress: true,
         observe: 'events'
       })
     }
 
-    addComment(data): Observable<any> {
-      return this.http.post<any>(`${this.url}/content/topicComment`, data, {
+    addComment(data, token): Observable<any> {
+      return this.http.post<any>(`${this.url}/content/topicComment?secret_token=` + token, data, {
         reportProgress: true,
         observe: 'events'
       })
     }
 
-    addTopicsCommentReply(data): Observable<any> {
+    addTopicsCommentReply(data, token): Observable<any> {
       console.log(data);
-      return this.http.post<any>(`${this.url}/content/topicCommentReply`, data, {
+      return this.http.post<any>(`${this.url}/content/topicCommentReply?secret_token=` + token, data, {
         reportProgress: true,
         observe: 'events'
       })
     }
 
-    getTopics() {
-      return this.http.get(this.url+'/content/allTopics');
+    getTopics(token) {
+      return this.http.get(this.url+'/content/allTopics?secret_token=' + token);
     }
   
-    getTopicById(id) {
+    getTopicById(id, token) {
       console.log(this.url+'/content/topic/'+id);
-      return this.http.get(this.url+'/content/topic/'+id);
+      return this.http.get(this.url+'/content/topic/'+id + '?secret_token=' + token);
     }
 
-    getTopicGroups() {
-      return this.http.get(this.url+'/content/topic-groups');
+    getTopicGroups(token) {
+      return this.http.get(this.url+'/content/topic-groups?secret_token='+token);
     }
 
     
-  getMyTopicThreads(email) {
-    return this.http.get(this.url+'/content/my-topic-threads?email='+email);
+  getMyTopicThreads(token) {
+    return this.http.get(this.url+'/content/my-topic-threads?secret_token='+token);
   }
 
   // Forum methods end
@@ -76,52 +76,50 @@ export class PostQueryService {
 
   // Blog methods
 
-    addPost(content: string, category: string, postFile: File, name: string, email: string, description: string): Observable<any> {
+    addPost(content: string, category: string, postFile: File, description: string, token: string): Observable<any> {
       var formData: any = new FormData();
       formData.append("content", content);
       formData.append("category", category);
       formData.append("myFile", postFile);
-      formData.append("postedByName", name);
-      formData.append("postedByEmail", email);
       formData.append("shortDescription", description);
 
-      return this.http.post<any>(`${this.url}/content/addPost`, formData, {
+      return this.http.post<any>(`${this.url}/content/addPost?secret_token=`+token, formData, {
         reportProgress: true,
         observe: 'events'
       })
     }
 
-    addPostsComment(data): Observable<any> {
+    addPostsComment(data, token): Observable<any> {
       console.log(data);
-      return this.http.post<any>(`${this.url}/content/postComment`, data, {
+      return this.http.post<any>(`${this.url}/content/postComment?secret_token=`+token, data, {
         reportProgress: true,
         observe: 'events'
       })
     }
 
-    addPostsCommentReply(data): Observable<any> {
+    addPostsCommentReply(data, token): Observable<any> {
       console.log(data);
-      return this.http.post<any>(`${this.url}/content/postCommentReply`, data, {
+      return this.http.post<any>(`${this.url}/content/postCommentReply?secret_token=`+token, data, {
         reportProgress: true,
         observe: 'events'
       })
     }
 
-    getMyPostThreads(email) {
-      return this.http.get(this.url+'/content/my-post-threads?email='+email);
+    getMyPostThreads(token) {
+      return this.http.get(this.url+'/content/my-post-threads?secret_token='+token);
     }
   
-    getPostGroups() {
-      return this.http.get(this.url+'/content/post-groups');
+    getPostGroups(token) {
+      return this.http.get(this.url+'/content/post-groups?secret_token='+token);
     }
 
-    getPostById(id) {
+    getPostById(id, token) {
       console.log(this.url+'/content/post/'+id);
-      return this.http.get(this.url+'/content/post/'+id);
+      return this.http.get(this.url+'/content/post/'+id +'?secret_token='+token);
     }
 
-    getPosts() {
-      return this.http.get(this.url+'/content/all');
+    getPosts(token) {
+      return this.http.get(this.url+'/content/all?secret_token='+token);
     }
     
   // Blog methods end

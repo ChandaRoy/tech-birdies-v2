@@ -32,7 +32,7 @@ export class UpdateProfileComponent implements OnInit {
     if (!this.currentUser) { 
       this.router.navigate(['/']);
     } else {
-      this.id = this.currentUser.user.id;
+      // this.id = this.currentUser.user.id;
     }
 
   }
@@ -41,18 +41,26 @@ export class UpdateProfileComponent implements OnInit {
     this.getUserDetails();
     console.log(this.currentUser);
     this.postContent = this.formBuilder.group({
-      firstName: [this.currentUser.user.firstName, Validators.required],
-      lastName: [this.currentUser.user.lastName, Validators.required],
-      email: [this.currentUser.user.email,Validators.required],
-      company: [this.currentUser.user.company,Validators.required],
-      aboutMe: [this.currentUser.user.aboutMe],
-      myFile: [this.currentUser.user.photo]
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['',Validators.required],
+      company: ['',Validators.required],
+      aboutMe: [''],
+      myFile: ['']
     });
   }
   getUserDetails() {
-    this.userService.getUserDetails(this.id).subscribe((res) => {
+    this.userService.getUserDetails(this.currentUser.token).subscribe((res) => {
       console.log(res);
-      this.currentUser['user'] = res;
+      this.currentUser['user'] = res['user'];
+      this.postContent = this.formBuilder.group({
+        firstName: [this.currentUser.user.firstName, Validators.required],
+        lastName: [this.currentUser.user.lastName, Validators.required],
+        email: [this.currentUser.user.email,Validators.required],
+        company: [this.currentUser.user.company,Validators.required],
+        aboutMe: [this.currentUser.user.aboutMe],
+        myFile: [this.currentUser.user.photo]
+      });
     })
   }
 
@@ -74,7 +82,8 @@ export class UpdateProfileComponent implements OnInit {
       "myFile"  :this.postContent.value.myFile
     }
     this.userService.updateProfile(
-      profileData
+      profileData,
+      this.currentUser.token
     ).subscribe((data) => {
       if (data === 'error') {
         this.error = true;

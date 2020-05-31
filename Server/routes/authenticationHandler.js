@@ -70,7 +70,7 @@ module.exports = function (passport) {
           id: user._id
         };
         const token = jwt.sign(user, 'techbirdies');
-        return res.json({ user, token });
+        return res.json({  token });
       });
     })(req, res);
   });

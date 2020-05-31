@@ -66,16 +66,13 @@
 
                     <div class="media d-block d-md-flex mt-3">
                         <img class="d-flex mb-3 mx-auto z-depth-1"
-                            src="https://mdbootstrap.com/img/Photos/Avatars/img (30).jpg"
+                            [src]="post.postedBy?.photo"
                             alt="Generic placeholder image" style="width: 100px;">
                         <div class="media-body text-center text-md-left ml-md-3 ml-0">
-                            <h6 class="mt-0 font-weight-bold">Caroline Horwitz
+                            <h6 class="mt-0 font-weight-bold">{{post.postedBy?.firstName+' '+post.postedBy?.lastName}}
                             </h6>
-                            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-                            voluptatum deleniti atque corrupti
-                            quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,
-                            similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum
-                            fuga.
+                            <p *ngIf="post.postedBy.company">Works at {{post.postedBy?.company}}</p>
+                            <p>{{post.postedBy?.aboutMe}}</p>
                         </div>
                     </div>
 
@@ -115,7 +112,7 @@
                                 src="https://mdbootstrap.com/img/Photos/Avatars/img (20).jpg"
                                 alt="Generic placeholder image">
                             <div class="media-body text-center text-md-left ml-md-3 ml-0">
-                                <h6 class="mt-0 font-weight-bold">{{comment.commentedByName}}
+                                <h6 class="mt-0 font-weight-bold">{{comment.commentedBy?.firstName+' '+comment.commentedBy?.lastName}}
                                     <a class="pull-right" (click)="onShowReplyForm(comment._id)">
                                         <i class="fas fa-reply"></i>
                                     </a>
@@ -128,7 +125,7 @@
                                             src="https://mdbootstrap.com/img/Photos/Avatars/img (27).jpg"
                                             alt="Generic placeholder image">
                                         <div class="media-body text-center text-md-left ml-md-3 ml-0">
-                                            <h6 class="mt-0 font-weight-bold">{{commentReply.commentedByName}}
+                                            <h6 class="mt-0 font-weight-bold">{{commentReply.commentedBy?.firstName+' '+commentReply.commentedBy?.lastName}}
                                             </h6>
                                             {{commentReply.commentText}}
                                         </div>

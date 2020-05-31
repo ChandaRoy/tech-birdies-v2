@@ -62,9 +62,8 @@ export class BlogCreateComponent implements OnInit {
       this.postContent.value.content,
       this.postContent.value.category,
       this.postContent.value.myFile,
-      this.currentUser.user.firstName+' '+this.currentUser.user.lastName,
-      this.currentUser.user.email,
-      this.postContent.value.shortDescription
+      this.postContent.value.shortDescription,
+      this.currentUser.token
     ).subscribe((event: HttpEvent<any>) => {
       console.log(event);
       

@@ -13,7 +13,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  updateProfile(data): Observable<any> {
+  updateProfile(data, token): Observable<any> {
     console.log(data);
     var formData: any = new FormData();
     formData.append("firstName", data.firstName);
@@ -23,14 +23,14 @@ export class UserService {
     formData.append("aboutMe", data.aboutMe );
     formData.append("myFile", data.myFile);
     formData.append("password", data.password);
-    return this.http.post<any>(`${this.url}/user/updateUser`, formData)    
+    return this.http.post<any>(`${this.url}/user/updateUser?secret_token=`+ token, formData)    
     .pipe(map(data => {
       return data;
   }));
   }
 
-  getUserDetails(id) {
-    return this.http.get(this.url+'/user/details/'+id);
+  getUserDetails( token) {
+    return this.http.get(this.url+'/user/details?secret_token='+ token);
   }
 
 

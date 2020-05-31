@@ -51,7 +51,7 @@ app.use(passport.session());
 // app.use(express.static(path.join(__dirname, 'authFolder')));
 app.use('/', routes);
 app.use('/auth',authenticationHandler);
-app.use('/content',postContent);
+app.use('/content', passport.authenticate('jwt', {session: false}), postContent);
 app.use('/user', passport.authenticate('jwt', {session: false}), user);
 
 

@@ -37,7 +37,7 @@ export class PostDetailComponent implements OnInit {
   }
 
   getPost() {
-    this.postQueryService.getPostById(this.postId).subscribe((res) => {
+    this.postQueryService.getPostById(this.postId, this.currentUser.token).subscribe((res) => {
       console.log(res);
       this.post = res;
     })
@@ -52,7 +52,8 @@ export class PostDetailComponent implements OnInit {
       "commentedOn": new Date()
     };
     this.postQueryService.addPostsComment(
-      postData
+      postData,
+      this.currentUser.token
     ).subscribe((data) => {
       this.getPost();
       // this.Topics.push(data);
@@ -64,13 +65,12 @@ export class PostDetailComponent implements OnInit {
     let postData = {
       "postId": this.postId,
       "commentText" : this.commentReply,
-      "commentedByName" : this.currentUser.user.firstName+' '+this.currentUser.user.lastName,
-      "commentedByEmail": this.currentUser.user.email,
       "commentedOn": new Date(),
       "commentId" : id
     };
     this.postQueryService.addPostsCommentReply(
-      postData
+      postData,
+      this.currentUser.token
     ).subscribe((data) => {
       this.getPost();
       // this.Topics.push(data);

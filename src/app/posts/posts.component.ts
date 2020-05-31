@@ -34,7 +34,7 @@ export class PostsComponent implements OnInit {
   }
 
   getPosts() {
-    this.postQueryService.getPosts().subscribe((res) => {
+    this.postQueryService.getPosts(this.currentUser.token).subscribe((res) => {
       this.Posts = res['posts'];
     })
   }

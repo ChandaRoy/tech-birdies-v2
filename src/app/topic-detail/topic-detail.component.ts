@@ -38,7 +38,7 @@ export class TopicDetailComponent implements OnInit {
   }
 
   getTopic() {
-    this.postQueryService.getTopicById(this.topicId).subscribe((res) => {
+    this.postQueryService.getTopicById(this.topicId, this.currentUser.token).subscribe((res) => {
       console.log(res);
       this.topic = res;
     })
@@ -47,12 +47,11 @@ export class TopicDetailComponent implements OnInit {
     let postData = {
       "id": this.topicId,
       "commentText" : this.comment,
-      "commentedByName" : this.currentUser.user.firstName+' '+this.currentUser.user.lastName,
-      "commentedByEmail": this.currentUser.user.email,
       "commentedOn": new Date()
     };
     this.postQueryService.addComment(
-      postData
+      postData,
+      this.currentUser.token
     ).subscribe((data) => {
       this.getTopic();
       // this.Topics.push(data);
@@ -64,13 +63,12 @@ export class TopicDetailComponent implements OnInit {
     let postData = {
       "postId": this.topicId,
       "commentText" : this.commentReply,
-      "commentedByName" : this.currentUser.user.firstName+' '+this.currentUser.user.lastName,
-      "commentedByEmail": this.currentUser.user.email,
       "commentedOn": new Date(),
       "commentId" : id
     };
     this.postQueryService.addTopicsCommentReply(
-      postData
+      postData,
+      this.currentUser.token
     ).subscribe((data) => {
       this.getTopic();
       // this.Topics.push(data);

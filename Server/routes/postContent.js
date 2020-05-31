@@ -38,7 +38,7 @@ router.get('/allTopics', function (req, res, next) {
 
 router.get('/my-topic-threads', function (req, res, next) {
   Topic.find({
-    postedByEmail: req.query.email
+    postedByEmail: req.user.email
   }, {}, function (err, data) {
     if(!err)
     res.send(data);
@@ -47,7 +47,7 @@ router.get('/my-topic-threads', function (req, res, next) {
 
 router.get('/my-post-threads', function (req, res, next) {
   Post.find({
-    postedByEmail: req.query.email
+    postedByEmail: req.user.email
   }, {}, function (err, data) {
     if(!err)
     res.send(data);
@@ -115,7 +115,11 @@ router.get('/post-groups', function (req, res, next) {
 router.get("/post/:id", (req, res, next) => {
   console.log(req.params);
   var mysort = {"comments.postedOn" : -1};
-  Post.findById(req.params.id).sort(mysort).then(data => {
+  Post.findById(req.params.id)
+  .populate('postedBy','firstName lastName photo company aboutMe email')
+  .populate('comments.commentedBy', 'firstName lastName photo company aboutMe email')
+  .populate('comments.commentReplies.commentedBy', 'firstName lastName photo company aboutMe email')
+  .then(data => {
     if (data) {
       res.send(data);
     } else {
@@ -128,7 +132,11 @@ router.get("/post/:id", (req, res, next) => {
 
 router.get("/topic/:id", (req, res, next) => {
   console.log(req.params);
-  Topic.findById(req.params.id).then(data => {
+  Topic.findById(req.params.id)
+  .populate('postedBy','firstName lastName photo company aboutMe email')
+  .populate('comments.commentedBy', 'firstName lastName photo company aboutMe email')
+  .populate('comments.commentReplies.commentedBy', 'firstName lastName photo company aboutMe email')
+  .then(data => {
     if (data) {
       // console.log(data);
       res.send(data);
@@ -159,8 +167,7 @@ router.post('/addPost', function (req, res) {
       content: req.body.content,
       category: req.body.category,
       shortDescription: req.body.shortDescription,
-      postedByEmail: req.body.postedByEmail,
-      postedByName: req.body.postedByName,
+      postedBy: req.user.id,
       postedOn: Date.now(),
       updatedOn: Date.now(),
       myFile: url + '/files/' + req.file.filename
@@ -187,8 +194,7 @@ router.post('/addPost', function (req, res) {
       content: req.body.content,
       category: req.body.category,
       shortDescription: req.body.shortDescription,
-      postedByEmail: req.body.postedByEmail,
-      postedByName: req.body.postedByName,
+      postedBy: req.user.id,
       postedOn: Date.now(),
       updatedOn: Date.now()
     });
@@ -214,8 +220,7 @@ router.post('/addPost', function (req, res) {
 router.post('/addTopic', function (req, res) {
 
     const topic = new Topic({
-      postedByEmail: req.body.postedByEmail,
-      postedByName: req.body.postedByName,
+      postedBy: req.user.id,
       updatedBy: req.body.updatedBy,
       content: req.body.content,
       postedOn: Date.now(),
@@ -242,8 +247,7 @@ router.post('/addTopic', function (req, res) {
 router.post('/topicComment',function(req,res){
 var commentDetails = {
   "commentText" : req.body.commentText,
-  "commentedByName" : req.body.commentedByName,
-  "commentedByEmail": req.body.commentedByEmail,
+  "commentedBy" : req.user.id,
   "commentedOn": new Date()
 };
 console.log(commentDetails);
@@ -266,8 +270,7 @@ console.log(commentDetails);
 router.post('/postComment',function(req,res){
   var commentDetails = {
     "commentText" : req.body.commentText,
-    "commentedByName" : req.body.commentedByName,
-    "commentedByEmail": req.body.commentedByEmail,
+    "commentedBy" : req.user.id,
     "commentedOn": new Date()
   };
   console.log(commentDetails);
@@ -290,8 +293,7 @@ router.post('/postComment',function(req,res){
 router.post('/postCommentReply',function(req,res){
     var commentDetails = {
       "commentText" : req.body.commentText,
-      "commentedByName" : req.body.commentedByName,
-      "commentedByEmail": req.body.commentedByEmail,
+      "commentedBy" : req.user.id,
       "commentedOn": new Date()
     };
     console.log(commentDetails);
@@ -315,8 +317,7 @@ router.post('/postCommentReply',function(req,res){
   router.post('/topicCommentReply',function(req,res){
     var commentDetails = {
       "commentText" : req.body.commentText,
-      "commentedByName" : req.body.commentedByName,
-      "commentedByEmail": req.body.commentedByEmail,
+      "commentedBy" : req.user.id,
       "commentedOn": new Date()
     };
     console.log(commentDetails);
